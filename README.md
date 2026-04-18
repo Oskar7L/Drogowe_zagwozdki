@@ -24,5 +24,7 @@ Projekt analityczny dotyczący zagadnień drogowych. Repozytorium podzielone jes
 ## Zasady współpracy
 
 - Każda rola pracuje głównie w swoim folderze.
+- Zmiany wprowadzaj na osobnych branchach i twórz Pull Requesty do **wip**.
+- Po weryfikacji prace są mergowane z **wip** do **main**.
 - Zmiany wprowadzaj na osobnych branchach i twórz Pull Requesty.
 - Opisuj commity w języku polskim lub angielskim, jasno i zwięźle.
