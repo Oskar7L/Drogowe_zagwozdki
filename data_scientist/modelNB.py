@@ -213,29 +213,28 @@ if __name__ == "__main__":
     pd.set_option('display.max_columns', None)
 
     full_data = load_and_clean_data("DATA.csv", "DATA2.csv", "DATA3.csv")
-
     dropped_cols = ["Średnie_dobowe[poj./24h]", "Suma_z_okresu[poj.]", "odległość_od_centrum", "ustap_pierwszenstwa",
                     "Punkt APR", "pierwszenstwo", "przejscie_dla_pieszych",
                     "inne_znaki", "koniec_drogi_z_pierwszenstwem", "nakaz_wjazdu"]
     manual_data = full_data.drop(columns=[col for col in dropped_cols if col in full_data.columns])
 
-    # Klastrowanie
+
+    plot_correlation_matrix(manual_data, title="Pełna macierz korelacji cech (Przed czyszczeniem)")
+
+
     data_with_clusters = perform_clustering(manual_data, n_clusters=2)
     plot_cluster_profiles_heatmap(data_with_clusters)
 
-    # Modelowanie
     y_manual = manual_data["ilosc_wypadkow"]
     X_manual = manual_data.drop(columns=["ilosc_wypadkow"])
 
     fitted_model = estimate_count_models(X_manual, y_manual, label="SELEKCJA RĘCZNA")
 
-    # Wykresy końcowe
     if fitted_model is not None:
         plot_feature_importance(fitted_model)
         plot_actual_vs_predicted(data_with_clusters, fitted_model)
     else:
-        print("\n[BŁĄD] Model nie został dopasowany, pomijam wykresy ważności i predykcji.")
-
+        print("\nModel nie został dopasowany, pomijam wykresy ważności i predykcji.")
 
 
 
