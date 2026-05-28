@@ -9,7 +9,7 @@ import numpy as np
 
 
 def load_and_clean_data(data_path: str, data2_path: str, data3_path: str) -> pd.DataFrame:
-    data = pd.read_csv(data_path, sep=";", encoding="cp1250")
+    data = pd.read_csv(data_path, sep=";", encoding="utf-8")
     data2 = pd.read_csv(data2_path, sep=";", encoding="utf-8")
     data3 = pd.read_csv(data3_path, sep=";", encoding="utf-8")
     slownik_zagrozenia = {
