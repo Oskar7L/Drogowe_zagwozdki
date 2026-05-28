@@ -219,7 +219,7 @@ if __name__ == "__main__":
     manual_data = full_data.drop(columns=[col for col in dropped_cols if col in full_data.columns])
 
 
-    plot_correlation_matrix(manual_data, title="Pełna macierz korelacji cech (Przed czyszczeniem)")
+    plot_correlation_matrix(manual_data, title="Pełna macierz korelacji cech")
 
 
     data_with_clusters = perform_clustering(manual_data, n_clusters=2)
