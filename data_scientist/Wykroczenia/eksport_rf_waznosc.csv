@@ -1,0 +1,20 @@
+Cecha,Waga
+przejscie_dla_pieszych_lz,-0.017207334273624798
+masz_pierszenstwo_lz,0.0002820874471086032
+nakaz_jazdy_po_prawej_stronie_znaku_lz,0.006770098730606478
+tramwaje_lz,-0.0014104372355430161
+inne_znaki_lz,-0.007616361071932287
+zakaz_wjazdu_lz,-0.005923836389280668
+stop_lz,-0.0025387870239774292
+zakaz_skretu/zawracania_lz,-0.0011283497884344129
+rondo_lz,0.0002820874471086032
+odległosc_od_centrum [km],-0.003949224259520445
+sciezka_rowerowa,-0.0008462623413258097
+ograniczenie_predkosci,-0.0005641748942172064
+sygnalizacja_obecna,0.0005641748942172064
+sygnalizacja_awaria,0.0005641748942172064
+pogoda_opady,0.0022566995768688257
+pogoda_zla_widocznosc,0.014386459802538765
+oswietlenie_noc_jasno,0.009308885754583907
+oswietlenie_noc_ciemno_zmrok,-0.0002820874471086032
+nawierzchnia_trudna,0.02256699576868827
