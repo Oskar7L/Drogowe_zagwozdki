@@ -21,7 +21,7 @@ def load_and_clean_data(data_path: str, data2_path: str, data3_path: str) -> pd.
     # Agregacja skrzyżowan
     data_agg = data.groupby("skrzyzowanie").agg(
         ilosc_wypadkow=("skrzyzowanie", "size"),
-        waga_drogi=("waga_geometrii_drogi", "max"),
+        rodzaj_jezdni=("waga_geometrii_drogi", "max"),
     ).reset_index()
 
     # Złączenie i czyszczenie zmiennych
