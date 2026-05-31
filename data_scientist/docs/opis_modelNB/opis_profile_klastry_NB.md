@@ -1,0 +1,7 @@
+## Opis wykresu - profile klastrów - średnie wartości cech
+
+Wykres ten odpowiada na pytania, dlaczego skrzyżowania trafiły do klastru bezpieczniejszego lub niebezpiecznejszego, pokazując średnie wartości ich cech.
+
+* Głównym powodem, dla którego Klaster 1 zbiera tyle wypadków, jest przeładowanie informacyjne kierowców. Średnia wartość zmiennych pokazujących ilość znaków jest stanowczo większa w klastrze 1. 
+* W bezpiecznym Klastrze 0 sytuacja jest odwrotna. Jednym z elementów z dużym wpływem na bezpieczeństwo są znaki rond, których średnia wartość wynosi 2.00, podczas gdy w klastrze niebezpiecznym średnia ta wynosi równe 0.00 (czyli rond tam nie ma wcale). To dowód na to, że ruch okrężny jest dobrym rozwiązaniem zmniejszającym ilość wypadków. Dodatkowo w bezpiecznej grupie częściej pojawia się infrastruktura tramwajowa. Obecność tramwaju wymusza na projektantach zastosowanie bezpieczniejszych rozwiązań (np. dedykowanych faz sygnalizacji), a na kierowcach – znacznie większą ostrożność, co ostatecznie owocuje mniejszą liczbą wypadków.
+* Jednak absolutnie najważniejszy wniosek płynie z samego dołu tej tabeli, ze zmiennej Max\_dobowe. Średnie natężenie ruchu w obu klastrach jest niemal identyczne i wynosi około 50-53 tysiące samochodów na dobę. Jest to kluczowa informacja: to nie liczba samochodów na drodze generuje wypadki, ale to, jak skomplikowanie, nieczytelnie i chaotycznie zaprojektowano dane skrzyżowanie.
