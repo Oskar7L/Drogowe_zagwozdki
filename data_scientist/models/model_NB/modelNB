@@ -165,7 +165,7 @@ def plot_cluster_profiles_heatmap(df_clustered, title: str = "Profile Klastrów 
     plt.show()
 
 
-def plot_actual_vs_predicted(df_with_clusters, model_nb, title: str = "Rzeczywiste wypadki i Predykcja z modelu"):
+def plot_actual_vs_predicted(df_with_clusters, model_nb, title: str = "Top 20 Skrzyżowań: Rzeczywiste wypadki vs Predykcja z modelu"):
 
     df_plots = df_with_clusters.copy()
     X = df_plots.drop(columns=["ilosc_wypadkow", "klaster"], errors="ignore")
