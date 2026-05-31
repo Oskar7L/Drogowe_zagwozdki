@@ -215,7 +215,7 @@ if __name__ == "__main__":
     full_data = load_and_clean_data("DATA.csv", "DATA2.csv", "DATA3.csv")
     dropped_cols = ["Średnie_dobowe[poj./24h]", "Suma_z_okresu[poj.]", "odległość_od_centrum", "ustap_pierwszenstwa",
                     "Punkt APR", "pierwszenstwo", "przejscie_dla_pieszych",
-                    "inne_znaki", "koniec_drogi_z_pierwszenstwem", "nakaz_wjazdu", "tramwaje_znak"]
+                    "inne_znaki", "koniec_drogi_z_pierwszenstwem", "nakaz_wjazdu", "tramwaje_znak", "suma"]
     manual_data = full_data.drop(columns=[col for col in dropped_cols if col in full_data.columns])
 
 
