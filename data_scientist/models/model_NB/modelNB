@@ -112,8 +112,8 @@ def perform_clustering(df: pd.DataFrame, n_clusters: int = 3) -> pd.DataFrame:
 
 #wykres wpłytwu czynników
 def plot_feature_importance(model_nb, title: str = "Wpływ czynników na liczbę wypadków"):
-    params = model_nb.params.drop("const", errors="ignore")
-    pvalues = model_nb.pvalues.drop("const", errors="ignore")
+    params = model_nb.params.drop(["const", "alpha"], errors="ignore")
+    pvalues = model_nb.pvalues.drop(["const", "alpha"], errors="ignore")
 
     importance = (np.exp(params) - 1) * 100
 
