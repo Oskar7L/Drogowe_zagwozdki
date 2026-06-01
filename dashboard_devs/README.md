@@ -1,5 +1,9 @@
 # Dashboard Developers
 
+# Ważne
+Na ten moment wstawiono plik .zip oraz zebrano w jednym miejscu wszystkie istotne pliki z danymi
+Więc występuje tu POWIELENIE plików w z innych folderów!
+
 Ten folder przeznaczony jest dla deweloperów dashboardów pracujących nad projektem Drogowe Zagwozdki.
 
 ## Zakres odpowiedzialności
