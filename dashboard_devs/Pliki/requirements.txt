@@ -1,0 +1,11 @@
+Aby aplikacja działała poprawnie, należy upewnić się, że na urządzeniu są zainstalowane
+wymagane przez aplikację bilbioteki python.
+
+Wymagane biblioteki :
+- pandas
+- matplotlib
+
+Komenda instalacyjna do konsoli (cmd) :
+pip install pandas matplotlib
+
+Po instalacji, uruchom plik aplikacja.pyw

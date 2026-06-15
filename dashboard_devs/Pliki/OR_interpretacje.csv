@@ -1,0 +1,77 @@
+Cecha,Opis ekspercki,Kategoria
+sygnalizacja_obecna,"Obecność sygnalizacji świetlnej na skrzyżowaniu sprawia, że szansa na wystąpienie zdarzenia z grupy 'Dynamika i odległość' jest 2,69 razy większa w porównaniu do skrzyżowań całkowicie pozbawionych sygnalizatorów. ",Dynamika
+sciezka_rowerowa,"Występowanie infrastruktury rowerowej w obrębie skrzyżowania zwiększa szansę na tego typu kolizję 2,38 razy względem układów drogowych bez ścieżek rowerowych. ",Dynamika
+nawierzchnia_trudna,"Wystąpienie trudnych warunków nawierzchniowych (np. mokry, zaśnieżony lub oblodzony asfalt) sprawia, że szansa na zdarzenie z tej grupy jest 1,54 razy większa w stosunku do warunków referencyjnych (nawierzchni całkowicie suchej).",Dynamika
+masz_pierszenstwo_lz,"Każdy dodatkowy znak potwierdzający posiadanie pierwszeństwa przejazdu zwiększa szansę na wystąpienie analizowanego wykroczenia o 11,0%. ",Dynamika
+ograniczenie_predkosci,"Wzrost dopuszczalnego limitu prędkości na skrzyżowaniu o każdy 1 km/h przekłada się statystycznie na zwiększenie szansy wystąpienia zdarzenia z grupy dynamiki i odległości o 2,6%.",Dynamika
+rondo_lz,"Każdy znak oznaczający rondo zmniejsza szansę na wykroczenie o 5,0%.",Dynamika
+odległosc_od_centrum [km],"Wraz z oddalaniem się od ścisłego centrum miasta o każdy kolejny kilometr, szansa na wystąpienie wykroczenia maleje o 8,9%.",Dynamika
+stop_lz,"Każdy znak STOP w obrębie skrzyżowania obniża szansę na zdarzenie z grupy dynamiki o 10,4%.",Dynamika
+zakaz_skretu/zawracania_lz,"Każdy znak wprowadzający zakaz skrętu lub zawracania sprawia, że szansa na wykroczenie maleje o 17,4%. ",Dynamika
+tramwaje_lz,"Każdy dodatkowy znak z tramwajem zmniejsza szansę na zdarzenie o 30,9%.",Dynamika
+oswietlenie_noc_jasno,"Podróżowanie w nocy po dobrze oświetlonej drodze zmniejsza szansę na to wykroczenie o 34,4% w porównaniu do jazdy w dzień.",Dynamika
+przejscie_dla_pieszych_lz,Nieistotna statystycznie (p >= 0.05) - wynik może być dziełem przypadku.,Dynamika
+pogoda_zla_widocznosc,Nieistotna statystycznie (p >= 0.05) - wynik może być dziełem przypadku.,Dynamika
+inne_znaki_lz,Nieistotna statystycznie (p >= 0.05) - wynik może być dziełem przypadku.,Dynamika
+pogoda_opady,Nieistotna statystycznie (p >= 0.05) - wynik może być dziełem przypadku.,Dynamika
+zakaz_wjazdu_lz,Nieistotna statystycznie (p >= 0.05) - wynik może być dziełem przypadku.,Dynamika
+nakaz_jazdy_po_prawej_stronie_znaku_lz,Nieistotna statystycznie (p >= 0.05) - wynik może być dziełem przypadku.,Dynamika
+oswietlenie_noc_ciemno_zmrok,Nieistotna statystycznie (p >= 0.05) - wynik może być dziełem przypadku.,Dynamika
+sygnalizacja_awaria,Nieistotna statystycznie (p >= 0.05) - wynik może być dziełem przypadku.,Dynamika
+sygnalizacja_awaria,"Wystąpienie awarii sygnalizacji świetlnej sprawia, że szansa na wymuszenie pierwszeństwa jest aż 7,83 razy większa w porównaniu do sytuacji jej braku.",Wymuszenia
+stop_lz,"Każdy dodatkowy znak STOP na skrzyżowaniu zwiększa szansę na wystąpienie tego wykroczenia o 82,9%",Wymuszenia
+przejscie_dla_pieszych_lz,"Każdy dodatkowy znak przejścia dla pieszych zwiększa szansę na wystąpienie analizowanego wykroczenia o 7,7%.",Wymuszenia
+ograniczenie_predkosci,"Wzrost dopuszczalnego limitu prędkości na skrzyżowaniu o każdy 1 km/h przekłada się statystycznie na zwiększenie szansy wystąpienia wymuszenia pierwszeństwa o 3,1%.",Wymuszenia
+odległosc_od_centrum [km],"Wraz z oddalaniem się od ścisłego centrum miasta o każdy kolejny kilometr, szansa na wystąpienie wykroczenia maleje o 14,4%.",Wymuszenia
+zakaz_wjazdu_lz,"Każdy znak zakazu wjazdu w obrębie skrzyżowania obniża szansę na to zdarzenie o 14,6%.",Wymuszenia
+rondo_lz,"Każdy znak oznaczający rondo zmniejsza szansę na wymuszenie pierwszeństwa o 16,5%.",Wymuszenia
+zakaz_skretu/zawracania_lz,"Każdy znak wprowadzający zakaz skrętu lub zawracania sprawia, że szansa na wykroczenie maleje o 17,7%.",Wymuszenia
+nakaz_jazdy_po_prawej_stronie_znaku_lz,"Każdy dodatkowy znak nakazu jazdy po prawej stronie znaku obniża szansę na zdarzenie o 18,9%.",Wymuszenia
+tramwaje_lz,"Każdy dodatkowy znak ostrzegający o tramwajach zmniejsza szansę na wymuszenie o 21,8%.",Wymuszenia
+sygnalizacja_obecna,"Obecność działającej sygnalizacji świetlnej sprawia, że szansa na wymuszenie pierwszeństwa maleje o 74,4% w porównaniu do skrzyżowań całkowicie pozbawionych sygnalizatorów.",Wymuszenia
+sciezka_rowerowa,"Występowanie infrastruktury rowerowej w obrębie skrzyżowania zmniejsza szansę na wymuszenie pierwszeństwa przez pojazdy o 78,8% względem układów drogowych bez ścieżek rowerowych.",Wymuszenia
+oswietlenie_noc_ciemno_zmrok,Nieistotna statystycznie (p >= 0.05) - wynik może być dziełem przypadku.,Wymuszenia
+oswietlenie_noc_jasno,Nieistotna statystycznie (p >= 0.05) - wynik może być dziełem przypadku.,Wymuszenia
+masz_pierszenstwo_lz,Nieistotna statystycznie (p >= 0.05) - wynik może być dziełem przypadku.,Wymuszenia
+pogoda_opady,Nieistotna statystycznie (p >= 0.05) - wynik może być dziełem przypadku.,Wymuszenia
+pogoda_zla_widocznosc,Nieistotna statystycznie (p >= 0.05) - wynik może być dziełem przypadku.,Wymuszenia
+inne_znaki_lz,Nieistotna statystycznie (p >= 0.05) - wynik może być dziełem przypadku.,Wymuszenia
+nawierzchnia_trudna,Nieistotna statystycznie (p >= 0.05) - wynik może być dziełem przypadku.,Wymuszenia
+sciezka_rowerowa,"Występowanie infrastruktury rowerowej w obrębie skrzyżowania zwiększa szansę na błąd manewrowy 2,61 razy względem układów drogowych bez ścieżek rowerowych.",Manewry
+tramwaje_lz,"Każdy dodatkowy znak ostrzegający o tramwajach zwiększa szansę na wystąpienie błędów manewrowych o 63,5%.",Manewry
+sygnalizacja_obecna,"Obecność działającej sygnalizacji świetlnej na skrzyżowaniu sprawia, że szansa na nieprawidłowy manewr jest 1,44 razy większa w porównaniu do skrzyżowań bez sygnalizatorów.",Manewry
+zakaz_skretu/zawracania_lz,"Każdy znak wprowadzający zakaz skrętu lub zawracania zwiększa szansę na popełnienie błędu z tej kategorii o 36,6%.",Manewry
+oswietlenie_noc_jasno,"Podróżowanie w nocy po dobrze oświetlonej drodze sprawia, że szansa na nieprawidłowy manewr jest 1,23 razy większa w porównaniu do jazdy w dzień.",Manewry
+odległosc_od_centrum [km],"Wraz z oddalaniem się od ścisłego centrum miasta o każdy kolejny kilometr, szansa na wystąpienie błędu manewrowego rośnie o 20,9%.",Manewry
+nakaz_jazdy_po_prawej_stronie_znaku_lz,"Każdy dodatkowy znak nakazu jazdy po prawej stronie znaku zwiększa szansę na wystąpienie nieprawidłowego manewru o 18,6%.",Manewry
+rondo_lz,"Każdy znak oznaczający rondo zwiększa szansę na błędy przy zmianie pasa lub skręcaniu o 17,4%.",Manewry
+zakaz_wjazdu_lz,"Każdy znak zakazu wjazdu w obrębie węzła zwiększa szansę na błąd manewrowy o 13,9%.",Manewry
+ograniczenie_predkosci,"Wzrost dopuszczalnego limitu prędkości na skrzyżowaniu o każdy 1 km/h przekłada się statystycznie na zmniejszenie szansy wystąpienia błędu manewrowego o 5,2%.",Manewry
+przejscie_dla_pieszych_lz,"Każdy dodatkowy znak przejścia dla pieszych zmniejsza szansę na wystąpienie analizowanego wykroczenia o 7,6%.",Manewry
+masz_pierszenstwo_lz,"Każdy dodatkowy znak potwierdzający posiadanie pierwszeństwa przejazdu obniża szansę na nieprawidłowy manewr o 11,6%.",Manewry
+pogoda_zla_widocznosc,"Wystąpienie złej widoczności (np. mgła, oślepiające słońce) sprawia, że szansa na błąd manewrowy maleje o 24,1% w stosunku do dobrych warunków pogodowych.",Manewry
+stop_lz,"Każdy dodatkowy znak STOP na skrzyżowaniu obniża szansę na wystąpienie błędu manewrowego o 32,2%.",Manewry
+sygnalizacja_awaria,"Wystąpienie awarii sygnalizacji świetlnej sprawia, że szansa na to wykroczenie maleje o 80,9% w porównaniu do sytuacji prawidłowo działającego skrzyżowania.",Manewry
+oswietlenie_noc_ciemno_zmrok,Nieistotna statystycznie (p >= 0.05) - wynik może być dziełem przypadku.,Manewry
+nawierzchnia_trudna,Nieistotna statystycznie (p >= 0.05) - wynik może być dziełem przypadku.,Manewry
+inne_znaki_lz,Nieistotna statystycznie (p >= 0.05) - wynik może być dziełem przypadku.,Manewry
+pogoda_opady,Nieistotna statystycznie (p >= 0.05) - wynik może być dziełem przypadku.,Manewry
+pogoda_zla_widocznosc,"Wystąpienie złej widoczności (np. mgła, oślepiające słońce) sprawia, że szansa na potrącenie pieszego jest 2,90 razy większa w stosunku do dobrych warunków pogodowych.",Piesi
+przejscie_dla_pieszych_lz,"Każdy dodatkowy znak przejścia dla pieszych na skrzyżowaniu zwiększa szansę na wystąpienie potrącenia o 15,6%.",Piesi
+ograniczenie_predkosci,"Wzrost dopuszczalnego limitu prędkości na skrzyżowaniu o każdy 1 km/h przekłada się statystycznie na zwiększenie szansy wystąpienia potrącenia pieszego o 8,0%.",Piesi
+rondo_lz,"Każdy znak oznaczający rondo zmniejsza szansę na zdarzenie z udziałem pieszego o 18,6%.",Piesi
+odległosc_od_centrum [km],"Wraz z oddalaniem się od ścisłego centrum miasta o każdy kolejny kilometr, szansa na wystąpienie potrącenia pieszego maleje o 19,7%.",Piesi
+zakaz_skretu/zawracania_lz,"Każdy znak wprowadzający zakaz skrętu lub zawracania sprawia, że szansa na potrącenie pieszego maleje o 43,2%.",Piesi
+tramwaje_lz,"Każdy dodatkowy znak ostrzegający o tramwajach zmniejsza szansę na zdarzenie z udziałem pieszego o 50,9%.",Piesi
+nawierzchnia_trudna,"Wystąpienie trudnych warunków nawierzchniowych (np. mokry lub zaśnieżony asfalt) sprawia, że szansa na potrącenie pieszego maleje o 57,6% w stosunku do nawierzchni całkowicie suchej.",Piesi
+sygnalizacja_obecna,Nieistotna statystycznie (p >= 0.05) - wynik może być dziełem przypadku.,Piesi
+pogoda_opady,Nieistotna statystycznie (p >= 0.05) - wynik może być dziełem przypadku.,Piesi
+zakaz_wjazdu_lz,Nieistotna statystycznie (p >= 0.05) - wynik może być dziełem przypadku.,Piesi
+sygnalizacja_awaria,Nieistotna statystycznie (p >= 0.05) - wynik może być dziełem przypadku.,Piesi
+nakaz_jazdy_po_prawej_stronie_znaku_lz,Nieistotna statystycznie (p >= 0.05) - wynik może być dziełem przypadku.,Piesi
+oswietlenie_noc_ciemno_zmrok,Nieistotna statystycznie (p >= 0.05) - wynik może być dziełem przypadku.,Piesi
+inne_znaki_lz,Nieistotna statystycznie (p >= 0.05) - wynik może być dziełem przypadku.,Piesi
+sciezka_rowerowa,Nieistotna statystycznie (p >= 0.05) - wynik może być dziełem przypadku.,Piesi
+masz_pierszenstwo_lz,Nieistotna statystycznie (p >= 0.05) - wynik może być dziełem przypadku.,Piesi
+oswietlenie_noc_jasno,Nieistotna statystycznie (p >= 0.05) - wynik może być dziełem przypadku.,Piesi
+stop_lz,Nieistotna statystycznie (p >= 0.05) - wynik może być dziełem przypadku.,Piesi

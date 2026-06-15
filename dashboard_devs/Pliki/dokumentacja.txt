@@ -1,0 +1,580 @@
+DOKUMENTACJA UML KODU
+Dashboard bezpieczeństwa skrzyżowań drogowych
+Wersja bazowa: aplikacja.pyw / aplikacja_skrzyzowania_v7_3.py
+
+1. Cel dokumentacji
+
+Dokument opisuje uproszczony model UML aplikacji okienkowej służącej do analizy
+bezpieczeństwa warszawskich skrzyżowań. Dokumentacja nie jest pełną dokumentacją
+techniczną każdej funkcji, lecz syntetycznym opisem architektury kodu, głównych klas,
+zależności oraz przepływów działania aplikacji.
+
+Aplikacja została napisana w języku Python z wykorzystaniem Tkintera, pandas oraz
+matplotlib. Program działa jako aplikacja desktopowa uruchamiana z pliku .py lub .pyw.
+
+Główne funkcje aplikacji:
+- wczytanie danych o zdarzeniach drogowych, natężeniu ruchu i atrybutach skrzyżowań,
+- prezentacja strony Home z opisem, instrukcją oraz wykresami ogólnymi,
+- wybór skrzyżowania z listy i prezentacja szczegółów,
+- generowanie wykresów dla wybranego skrzyżowania,
+- prezentacja sekcji Modelowanie z opisami i gotowymi grafikami PNG,
+- obsługa ustawień wyglądu: rozmiar tekstu i tryb ciemny,
+- zapis ustawień użytkownika w pliku JSON,
+- bezpieczne zamykanie aplikacji.
+
+2. Główne elementy systemu
+
+Najważniejsze klasy w aplikacji:
+
+1. DataStore
+   Odpowiada za wczytywanie, czyszczenie i udostępnianie danych.
+
+2. IntersectionPlots
+   Odpowiada za generowanie wykresów matplotlib dla wybranego skrzyżowania.
+
+3. IntersectionApp
+   Główna klasa aplikacji, dziedzicząca po tk.Tk. Buduje interfejs, obsługuje zakładki,
+   reakcje użytkownika, ustawienia, zmianę motywu, przewijanie, wykresy i zamknięcie programu.
+
+4. ScrollableFrame
+   Pomocniczy komponent przewijanego obszaru interfejsu.
+
+5. ToolTip
+   Pomocniczy komponent wyświetlający krótkie podpowiedzi po najechaniu kursorem.
+
+Dodatkowo w kodzie znajdują się funkcje pomocnicze, m.in. do formatowania wartości,
+normalizacji tekstu, klasyfikacji poziomu KPI oraz odczytu nagłówków Markdown.
+
+3. Diagram klas UML - wersja tekstowa
+
+Poniższy diagram można wkleić do narzędzia obsługującego PlantUML.
+
+@startuml
+skinparam classAttributeIconSize 0
+
+class DataStore {
+    - base_dir: Path
+    - events: DataFrame
+    - traffic: DataFrame
+    - attributes: DataFrame
+    - or_interpretations: DataFrame
+    - intersection_descriptions: dict
+    - intersections: DataFrame
+    - events_by_id: dict
+    - summary_cache: dict
+    - statistics_md_path: Path
+    - prediction_description_files: list[Path]
+    --
+    + get_intersections(): list
+    + get_events(intersection_id): DataFrame
+    + get_traffic_row(intersection_id): Series
+    + get_attributes_row(intersection_id): Series
+    + get_intersection_name(intersection_id): str
+    + get_summary(intersection_id): dict
+    + get_home_overview(): dict
+    + get_interpretation(feature_key): str
+}
+
+class IntersectionPlots {
+    - data: DataStore
+    --
+    + events_by_year(intersection_id): Figure
+    + events_by_month(intersection_id): Figure
+    + event_types(intersection_id): Figure
+    + violations(intersection_id): Figure
+    + signalling(intersection_id): Figure
+    + weather(intersection_id): Figure
+    + lighting(intersection_id): Figure
+    + surface(intersection_id): Figure
+    + traffic_comparison(intersection_id): Figure
+    + attributes_summary(intersection_id): Figure
+    + groups(): dict
+}
+
+class IntersectionApp {
+    - data_store: DataStore
+    - plotter: IntersectionPlots
+    - current_id: int
+    - current_plot_canvases: list
+    - all_intersections: list
+    - font_size_level: IntVar
+    - dark_mode_enabled: BooleanVar
+    - chart_category: StringVar
+    --
+    + show_tab(tab_name): void
+    + _build_layout(): void
+    + _build_home_tab(parent): void
+    + _build_intersections_tab(parent): void
+    + _build_modeling_tab(parent): void
+    + _open_settings(): void
+    + _apply_font_settings(): void
+    + _on_dark_mode_changed(): void
+    + _request_intersection_load(intersection_id): void
+    + _render_intersection(intersection_id): void
+    + _render_all_charts(intersection_id): void
+    + _on_close(): void
+}
+
+class ScrollableFrame {
+    - canvas: Canvas
+    - scrollbar: Scrollbar
+    - content: Frame
+    --
+    + scroll_to_top(): void
+    - _on_mousewheel(event): void
+}
+
+class ToolTip {
+    - widget: Widget
+    - text: str
+    - tipwindow: Toplevel
+    --
+    + show(event): void
+    + hide(event): void
+}
+
+class Figure
+class DataFrame
+class Tk
+
+Tk <|-- IntersectionApp
+IntersectionApp *-- DataStore
+IntersectionApp *-- IntersectionPlots
+IntersectionApp ..> ScrollableFrame
+IntersectionApp ..> ToolTip
+IntersectionPlots --> DataStore
+DataStore --> DataFrame
+IntersectionPlots --> Figure
+
+@enduml
+
+4. Opis klas
+4.1. DataStore
+
+Rola:
+DataStore jest warstwą danych aplikacji. Klasa izoluje logikę wczytywania plików CSV,
+Markdown i plików konfiguracyjnych od logiki interfejsu użytkownika.
+
+Najważniejsze odpowiedzialności:
+- wyszukiwanie plików w folderze aplikacji oraz typowych podfolderach,
+- wczytywanie danych o zdarzeniach drogowych z pliku wyczyszczone_dane.csv,
+- wczytywanie danych o natężeniu ruchu z pliku uzupelnione_natezenie.csv,
+- wczytywanie atrybutów infrastrukturalnych z pliku atrybuty skrzyzowan.csv,
+- wczytywanie opisów skrzyżowań z pliku Opis-skrzyzowan.md,
+- wczytywanie interpretacji cech z pliku OR_interpretacje.csv,
+- wyszukiwanie plików opisów wykresów modelowania w folderze Opisy_wykresy,
+- przygotowywanie listy skrzyżowań,
+- grupowanie zdarzeń według identyfikatora skrzyżowania,
+- obliczanie podstawowych progów porównawczych, np. mediany i kwartyli.
+
+Najważniejsze metody:
+- get_intersections() - zwraca listę dostępnych skrzyżowań,
+- get_events(id) - zwraca zdarzenia dla wybranego skrzyżowania,
+- get_summary(id) - zwraca podsumowanie KPI,
+- get_home_overview() - zwraca dane podsumowujące stronę Home,
+- get_interpretation(feature_key) - zwraca opis ekspercki wybranej cechy.
+
+Relacje:
+- DataStore jest używany przez IntersectionApp.
+- DataStore jest używany przez IntersectionPlots.
+
+4.2. IntersectionPlots
+
+Rola:
+IntersectionPlots odpowiada za tworzenie wykresów matplotlib dla konkretnego skrzyżowania.
+Nie zarządza interfejsem użytkownika, lecz zwraca obiekty Figure, które są potem osadzane
+w aplikacji przez IntersectionApp.
+
+Najważniejsze odpowiedzialności:
+- generowanie wykresu liczby zdarzeń według lat,
+- generowanie wykresu liczby zdarzeń według miesięcy,
+- generowanie wykresu typów zdarzeń,
+- generowanie wykresu najczęstszych wykroczeń,
+- generowanie wykresów warunków pogodowych, oświetleniowych i stanu nawierzchni,
+- generowanie porównania natężenia ruchu na tle innych skrzyżowań,
+- generowanie podsumowania atrybutów infrastruktury,
+- zwracanie grup wykresów dla listy rozwijanej w interfejsie.
+
+Relacje:
+- IntersectionPlots posiada referencję do DataStore.
+- IntersectionPlots zwraca obiekty matplotlib.figure.Figure.
+
+4.3. IntersectionApp
+
+Rola:
+IntersectionApp to główna klasa aplikacji desktopowej. Dziedziczy po tk.Tk i odpowiada
+za cały interfejs użytkownika oraz koordynację działania programu.
+
+Najważniejsze odpowiedzialności:
+- inicjalizacja okna głównego,
+- wyświetlenie ekranu ładowania,
+- budowa głównego układu aplikacji,
+- obsługa zakładek Home, Skrzyżowania i Modelowanie,
+- obsługa wyszukiwania i wyboru skrzyżowania,
+- obsługa dynamicznego ładowania szczegółów skrzyżowania,
+- osadzanie wykresów matplotlib w Tkinterze,
+- renderowanie treści Markdown i grafik PNG w sekcji Modelowanie,
+- obsługa ustawień wyglądu,
+- zmiana rozmiaru tekstu,
+- zmiana trybu jasnego/ciemnego,
+- zapisywanie ustawień do app_settings.json,
+- bezpieczne zamykanie aplikacji.
+
+Najważniejsze metody:
+- _build_startup_loading_screen() - tworzy ekran ładowania,
+- _build_layout() - buduje strukturę głównego interfejsu,
+- _build_home_tab() - buduje zakładkę Home,
+- _build_intersections_tab() - buduje zakładkę Skrzyżowania,
+- _build_modeling_tab() - buduje zakładkę Modelowanie,
+- _request_intersection_load() - inicjuje ładowanie szczegółów skrzyżowania,
+- _render_intersection() - renderuje szczegóły wybranego skrzyżowania,
+- _render_all_charts() - renderuje zestaw wykresów dla wybranej kategorii,
+- _render_markdown_file() - renderuje pliki Markdown w sekcji Modelowanie,
+- _render_prediction_description() - renderuje opis i grafikę dla wykresu predykcyjnego,
+- _open_settings() - otwiera okno ustawień,
+- _apply_font_settings() - skaluje aktualnie widoczne teksty,
+- _on_dark_mode_changed() - obsługuje przełączenie trybu ciemnego,
+- _on_close() - kończy aplikację i czyści zasoby.
+
+Relacje:
+- IntersectionApp posiada DataStore.
+- IntersectionApp posiada IntersectionPlots.
+- IntersectionApp tworzy ScrollableFrame i ToolTip.
+- IntersectionApp korzysta z matplotlib przez FigureCanvasTkAgg.
+
+4.4. ScrollableFrame
+
+Rola:
+ScrollableFrame jest pomocniczym komponentem interfejsu, który umożliwia wygodne
+przewijanie dużych sekcji aplikacji.
+
+Najważniejsze odpowiedzialności:
+- utworzenie Canvas i Scrollbar,
+- osadzenie wewnętrznej ramki content,
+- obsługa kółka myszy nad elementami potomnymi,
+- przewinięcie widoku do góry.
+
+Relacje:
+- ScrollableFrame jest używany przez IntersectionApp w zakładkach z długą treścią.
+
+4.5. ToolTip
+
+Rola:
+ToolTip odpowiada za wyświetlanie krótkich podpowiedzi przy wybranych elementach
+interfejsu, np. przy przycisku ustawień.
+
+Najważniejsze odpowiedzialności:
+- wykrycie najechania kursorem,
+- utworzenie małego okna Toplevel z treścią podpowiedzi,
+- ukrycie podpowiedzi po opuszczeniu elementu.
+
+5. Diagram komponentów UML
+
+@startuml
+skinparam componentStyle rectangle
+
+actor Uzytkownik
+
+component "Aplikacja Tkinter\n(aplikacja.pyw)" as App
+component "Warstwa danych\nDataStore" as Data
+component "Generator wykresów\nIntersectionPlots" as Plots
+component "Pliki CSV" as CSV
+component "Pliki Markdown" as MD
+component "Grafiki PNG" as PNG
+component "Ustawienia JSON" as JSON
+component "Matplotlib" as MPL
+component "Pandas" as PD
+
+Uzytkownik --> App : kliknięcia, wybór zakładek,
+wyszukiwanie, ustawienia
+App --> Data : pobierz dane i opisy
+App --> Plots : wygeneruj wykresy skrzyżowania
+Data --> CSV : odczyt danych
+Data --> MD : odczyt opisów
+App --> PNG : odczyt grafik modelowania
+App --> JSON : odczyt/zapis ustawień
+Data --> PD : przetwarzanie danych
+Plots --> MPL : tworzenie wykresów
+App --> MPL : osadzanie FigureCanvasTkAgg
+
+@enduml
+
+6. Diagram przypadków użycia UML
+
+@startuml
+left to right direction
+
+actor "Użytkownik" as User
+
+rectangle "Dashboard skrzyżowań" {
+    usecase "Uruchom aplikację" as UC1
+    usecase "Przeglądaj stronę Home" as UC2
+    usecase "Wyszukaj skrzyżowanie" as UC3
+    usecase "Wybierz skrzyżowanie" as UC4
+    usecase "Przeglądaj szczegóły skrzyżowania" as UC5
+    usecase "Zmień kategorię wykresów" as UC6
+    usecase "Przeglądaj modelowanie" as UC7
+    usecase "Przeglądaj klasyfikację zdarzeń" as UC8
+    usecase "Zmień rozmiar tekstu" as UC9
+    usecase "Włącz/wyłącz tryb ciemny" as UC10
+    usecase "Zamknij aplikację" as UC11
+}
+
+User --> UC1
+User --> UC2
+User --> UC3
+User --> UC4
+User --> UC5
+User --> UC6
+User --> UC7
+User --> UC8
+User --> UC9
+User --> UC10
+User --> UC11
+
+UC4 --> UC5 : <<include>>
+UC5 --> UC6 : <<extend>>
+UC9 --> UC10 : <<extend>>
+
+@enduml
+
+7. Diagram sekwencji - uruchomienie aplikacji
+
+@startuml
+actor Uzytkownik
+participant "main()" as Main
+participant "DataStore" as Data
+participant "IntersectionApp" as App
+participant "Tkinter" as Tk
+
+Uzytkownik -> Main : uruchamia aplikacja.pyw
+Main -> Data : DataStore(base_dir)
+Data -> Data : wczytaj CSV, Markdown, opisy, ustawienia danych
+Main -> App : IntersectionApp(data)
+App -> Tk : utwórz okno główne
+App -> App : pokaż ekran ładowania
+App -> App : zbuduj layout
+App -> App : zbuduj zakładki Home, Skrzyżowania, Modelowanie
+App -> Tk : mainloop()
+Tk -> Uzytkownik : aplikacja gotowa do użycia
+
+@enduml
+
+8. Diagram sekwencji - wybór skrzyżowania
+
+@startuml
+actor Uzytkownik
+participant "IntersectionApp" as App
+participant "DataStore" as Data
+participant "IntersectionPlots" as Plots
+participant "Matplotlib" as MPL
+
+Uzytkownik -> App : wybiera skrzyżowanie z listy
+App -> App : zwiększ token ładowania
+App -> App : pokaż komunikat ładowania
+App -> Data : get_summary(id)
+Data --> App : dane KPI
+App -> Data : get_traffic_row(id)
+Data --> App : dane natężenia
+App -> Data : get_attributes_row(id)
+Data --> App : atrybuty infrastruktury
+App -> Data : get_intersection_description(id)
+Data --> App : opis analityczny
+App -> Plots : wygeneruj wykresy dla kategorii
+Plots -> Data : pobierz zdarzenia i dane pomocnicze
+Plots -> MPL : utwórz Figure
+MPL --> Plots : Figure
+Plots --> App : lista wykresów
+App -> App : osadź wykresy w interfejsie
+App --> Uzytkownik : szczegóły skrzyżowania gotowe
+
+@enduml
+
+9. Diagram sekwencji - zmiana ustawień wyglądu
+
+@startuml
+actor Uzytkownik
+participant "IntersectionApp" as App
+participant "app_settings.json" as JSON
+participant "Tkinter widgets" as Widgets
+
+Uzytkownik -> App : otwiera okno ustawień
+App -> Uzytkownik : pokazuje ustawienia
+Uzytkownik -> App : zmienia rozmiar tekstu lub tryb ciemny
+App -> Widgets : aktualizuje kolory / fonty
+App -> JSON : zapisuje ustawienia
+App --> Uzytkownik : widok zaktualizowany
+
+@enduml
+
+10. Diagram aktywności - praca z zakładką Skrzyżowania
+
+@startuml
+start
+:Otwórz zakładkę Skrzyżowania;
+:Wpisz fragment nazwy lub wybierz z listy;
+if (Czy wybrano skrzyżowanie?) then (tak)
+    :Pokaż ekran ładowania szczegółów;
+    :Pobierz dane z DataStore;
+    :Oblicz KPI;
+    :Pobierz opis analityczny;
+    :Wygeneruj wykresy dla kategorii;
+    :Wyświetl szczegóły i wykresy;
+    if (Użytkownik zmienia kategorię wykresów?) then (tak)
+        :Wyczyść poprzednie wykresy;
+        :Wygeneruj nowy zestaw wykresów;
+        :Wyświetl nowy zestaw;
+    else (nie)
+        :Pozostań przy bieżącym widoku;
+    endif
+else (nie)
+    :Pokaż pusty panel szczegółów;
+endif
+stop
+@enduml
+
+11. Struktura danych i plików
+
+Aplikacja korzysta z następujących głównych zasobów:
+
+Pliki danych:
+- wyczyszczone_dane.csv
+- uzupelnione_natezenie.csv
+- atrybuty skrzyzowan.csv
+- OR_interpretacje.csv
+
+Pliki opisowe:
+- Opis-skrzyzowan.md
+- interpretacje.md
+- folder Opisy_wykresy z opisami wykresów modelowania
+
+Foldery z grafikami:
+- Modelowanie_wykresy
+- Wygenerowane_wykresy
+- Dane_wykresy
+
+Pliki konfiguracyjne:
+- app_settings.json
+- app_icon.png
+
+Plik uruchomieniowy:
+- aplikacja.pyw
+
+12. Ogólny przepływ danych
+
+1. Użytkownik uruchamia aplikację.
+2. Funkcja main() ustala katalog bazowy aplikacji.
+3. Tworzony jest obiekt DataStore.
+4. DataStore wczytuje pliki CSV i Markdown.
+5. Tworzony jest obiekt IntersectionApp.
+6. IntersectionApp tworzy obiekt IntersectionPlots.
+7. Interfejs pokazuje stronę Home.
+8. Po wyborze skrzyżowania aplikacja pobiera dane z DataStore.
+9. IntersectionPlots generuje wykresy na podstawie danych z DataStore.
+10. IntersectionApp osadza wykresy w interfejsie.
+11. W zakładce Modelowanie aplikacja czyta gotowe grafiki PNG i odpowiadające im opisy Markdown.
+12. Użytkownik może zmienić ustawienia wyglądu, które są zapisywane w app_settings.json.
+13. Przy zamknięciu aplikacja anuluje callbacki, zamyka wykresy i niszczy okno główne.
+
+13. Model odpowiedzialności klas
+
+DataStore:
+- odpowiada za dane,
+- nie odpowiada za wygląd interfejsu,
+- nie tworzy wykresów.
+
+IntersectionPlots:
+- odpowiada za wykresy dla pojedynczych skrzyżowań,
+- korzysta z DataStore,
+- nie zarządza zakładkami ani ustawieniami.
+
+IntersectionApp:
+- odpowiada za interfejs,
+- łączy dane z wykresami,
+- obsługuje zdarzenia użytkownika,
+- zarządza cyklem życia aplikacji.
+
+ScrollableFrame:
+- odpowiada tylko za przewijanie.
+
+ToolTip:
+- odpowiada tylko za podpowiedzi.
+
+14. Uproszczony diagram zależności warstw
+
+@startuml
+package "Interfejs użytkownika" {
+    class IntersectionApp
+    class ScrollableFrame
+    class ToolTip
+}
+
+package "Logika danych" {
+    class DataStore
+}
+
+package "Wizualizacja" {
+    class IntersectionPlots
+}
+
+package "Zasoby zewnętrzne" {
+    class "CSV"
+    class "Markdown"
+    class "PNG"
+    class "JSON"
+}
+
+IntersectionApp --> DataStore
+IntersectionApp --> IntersectionPlots
+IntersectionApp --> ScrollableFrame
+IntersectionApp --> ToolTip
+IntersectionPlots --> DataStore
+DataStore --> CSV
+DataStore --> Markdown
+IntersectionApp --> PNG
+IntersectionApp --> JSON
+
+@enduml
+
+15. Uwagi projektowe
+
+1. Aplikacja jest monolityczna, ale logicznie podzielona na warstwę danych,
+   warstwę wykresów i warstwę interfejsu.
+
+2. Najważniejsze oddzielenie odpowiedzialności zachodzi między DataStore,
+   IntersectionPlots i IntersectionApp.
+
+3. Sekcja Modelowanie korzysta z gotowych plików PNG, co upraszcza działanie aplikacji
+   i zmniejsza ryzyko błędów wynikających z brakujących modeli statystycznych.
+
+4. Ustawienia użytkownika są przechowywane lokalnie w pliku app_settings.json,
+   dzięki czemu aplikacja może zapamiętać wybrany rozmiar tekstu i motyw.
+
+5. Aplikacja jest przygotowana do uruchamiania jako .pyw, dzięki czemu nie pokazuje
+   okna konsoli podczas standardowego użycia.
+
+6. Zamykanie aplikacji powinno kończyć proces Pythona, ponieważ kod obsługuje anulowanie
+   zaplanowanych callbacków, zamknięcie wykresów i zniszczenie głównego okna.
+
+16. Propozycje ewentualnego rozwoju
+
+Możliwe rozszerzenia w przyszłości:
+- wydzielenie klas do osobnych modułów Python,
+- dodanie testów jednostkowych dla DataStore,
+- dodanie eksportu widoku skrzyżowania do PDF,
+- dodanie obsługi większej liczby źródeł danych,
+- dodanie mechanizmu aktualizacji danych bez restartu aplikacji,
+- dodanie pełnego instalatora lub wersji .exe w trybie folderowym.
+
+17. Podsumowanie
+
+Aplikacja posiada prostą, ale czytelną architekturę:
+
+- DataStore odpowiada za dane,
+- IntersectionPlots odpowiada za generowanie wykresów,
+- IntersectionApp odpowiada za interfejs i koordynację działania,
+- ScrollableFrame i ToolTip są komponentami pomocniczymi.
+
+Taki podział pozwala utrzymać aplikację w jednym pliku, a jednocześnie zachować
+czytelny model odpowiedzialności zgodny z podstawowymi zasadami projektowania
+aplikacji desktopowych.
