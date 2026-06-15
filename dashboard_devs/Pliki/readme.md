@@ -1,0 +1,3 @@
+# Tu znajdują się wszystkie rozpakowane pliki
+tak dla podglądu. Aplikację wciąż najlepiej pobrać w zipie i rozkapować.
+I zastosować się do instrukcji instalacji z requirements.txt...
